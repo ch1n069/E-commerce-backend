@@ -12,16 +12,15 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
+    def validate(self, attrs):
 
-        # Add custom claims
-        token['name'] = user.username
-        token['message']= " hello world"
-        # ...
-
-        return token
+        data = super().validate(attrs)
+        data['username'] = self.user.username
+        data['email']=self.user.email
+        
+        return data
+        
+    
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
