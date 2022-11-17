@@ -7,21 +7,38 @@ from .models import Product
 class UserProfileSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField(read_only=True)
     createdOn = serializers.SerializerMethodField(read_only=True)
+    _id = serializers.SerializerMethodField(read_only=True)
+    isAdmin = serializers.SerializerMethodField(read_only=True)
+
+
     class Meta: 
         model = User
         
-        fields = ['id','username', 'email','name', "createdOn"]
+        fields = ['id','_id','username', 'email','name', "createdOn", 'isAdmin']
         
     def get_name(self , obj):
         name = obj.first_name
         if name == '':#if user has not set name use email instead
             name = obj.email
             
+            
         return name
     def get_createdOn(self, obj):
         createdOn = obj.date_joined
         return createdOn
     
+    def get__id(self , obj):
+        _id  = obj.id 
+        return _id
+    
+    def get_isAdmin(self , obj):
+        
+         
+        isAdmin = obj.is_staff
+        return isAdmin
+        
+            
+            
     
 
 class ProductSerializer(serializers.ModelSerializer):
