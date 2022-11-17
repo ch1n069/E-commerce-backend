@@ -9,7 +9,7 @@ from .models import *
 from .serializers import ProductSerializer , UserProfileSerializer, UserSerializerWithToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-
+from django.contrib.auth.hashers import make_password
 # Create your views here.
 
 
@@ -45,6 +45,25 @@ def getUserProfile(request):
     return Response(serializer.data)
 
 #get all users 
+
+#user registration 
+@api_view(['POST'])
+def registerUser(request):
+    data = request.data
+    user = User.objects.create(
+        first_name = data['name'],
+        username = data['email'],
+        email = data['email'],
+        password = make_password(data['password'])
+
+
+    )
+    serializer = UserSerializerWithToken(user, many=False)
+    
+    return Response(serializer.data)
+
+# END OF USER REGISTER VIEW 
+
 
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
