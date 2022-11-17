@@ -10,7 +10,8 @@ urlpatterns =[
     path('users/login',  views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
 
     path("", views.getRoutes, name="routes"),
-    path("users/profile", views.getUserProfile, name="user-profile"),
+    path("users/register/", views.registerUser, name="register"),
+    path("users/profile/", views.getUserProfile, name="user-profile"),
     path("users/", views.getAllUsers, name="users"),
 
     path("products/", views.getProducts, name="products"),
